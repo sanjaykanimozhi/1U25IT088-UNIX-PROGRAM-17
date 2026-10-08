@@ -1,21 +1,19 @@
 #!/bin/bash
 
-# Create user if it does not already exist
-if ! id "hari" &>/dev/null; then
-    sudo useradd hari
+# Check whether username was supplied
+if [ -z "$1" ]; then
+    echo "Error: Username is required"
+    exit 1
 fi
 
-# Display current password aging settings
-sudo chage -l hari
+# Set last password change date
+chage -d 2025-01-01 "$1"
 
 # Set account expiration date
-sudo chage -E 2024-10-24 hari
+chage -E 2026-12-31 "$1"
 
-# Set minimum days between password changes
-sudo chage -m 45 hari
+# Set minimum password age
+chage -m 7 "$1"
 
-# Set maximum days password is valid
-sudo chage -M 90 hari
-
-# Display updated settings
-sudo chage -l hari
+# Set maximum password age
+chage -M 90 "$1"
